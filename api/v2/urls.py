@@ -1,10 +1,8 @@
 # api/v2/urls.py
 
-from django.urls import include, path
-from rest_framework import routers
-
-router = routers.DefaultRouter()
+from django.urls import path
+from api.v2.user.views import UserAPIView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('user/', UserAPIView.as_view())
 ]
