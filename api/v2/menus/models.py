@@ -1,5 +1,6 @@
 from django.db import models
 from api.v2.restaurants.models import Restaurants
+from django.contrib.auth.models import User
 
 
 class Menus(models.Model):
@@ -9,3 +10,9 @@ class Menus(models.Model):
 
     class Meta:
         unique_together = ['restaurant', 'date']
+
+
+class Votes(models.Model):
+    employee = models.ForeignKey(User, on_delete=models.CASCADE)
+    menu = models.ForeignKey(Menus, on_delete=models.CASCADE)
+    point = models.PositiveIntegerField(default=1)
