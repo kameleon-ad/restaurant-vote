@@ -1,12 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from .models import Restaurant
-from .serializers import RestaurantSerializer
+from .models import Restaurants
+from .serializers import RestaurantsSerializer
 
 
-class RestaurantViewSet(ModelViewSet):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
+class RestaurantsViewSet(ModelViewSet):
+    queryset = Restaurants.objects.all()
+    serializer_class = RestaurantsSerializer
 
     def get_permissions(self):
         if self.request.method == 'GET':
