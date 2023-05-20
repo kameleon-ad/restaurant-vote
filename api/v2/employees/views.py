@@ -3,17 +3,16 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-
-from utils import create_user_validator
+from api.v2.employees.forms import EmployeeForm
 
 
 class UserAPIView(APIView):
     @staticmethod
     def post(request: Request):
-        errors = create_user_validator(request.data)
+        form = EmployeeForm(request.POST)
 
-        if len(errors.keys()):
-            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        if not form.is_valid():
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
         username = request.data.get('username')
         password = request.data.get('password')

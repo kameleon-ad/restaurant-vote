@@ -4,8 +4,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate, login
-
-from utils import auth_login_validator
+from api.v2.auth.forms import AuthForm
 
 
 class AuthAPIView(APIView):
@@ -17,10 +16,10 @@ class AuthAPIView(APIView):
 
     @staticmethod
     def post(request: Request):
-        errors = auth_login_validator(request.data)
+        form = AuthForm(request.POST)
 
-        if len(errors.keys()):
-            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        if not form.is_valid():
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
         username = request.data.get('username')
         password = request.data.get('password')
