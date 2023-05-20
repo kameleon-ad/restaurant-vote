@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'api.v2.restaurants',
+    'api.v2.menus',
 ]
 
 MIDDLEWARE = [

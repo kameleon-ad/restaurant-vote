@@ -25,4 +25,4 @@ class UserAPIView(APIView):
 
         user = User.objects.create_user(username, email, password)
         user.save()
-        return Response({"username": username}, status=status.HTTP_202_ACCEPTED)
+        return Response({"username": username}, status=status.HTTP_201_CREATED)

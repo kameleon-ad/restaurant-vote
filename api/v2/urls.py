@@ -5,9 +5,11 @@ from django.urls import include, path
 from api.v2.employees.views import UserAPIView
 from api.v2.auth.views import AuthAPIView
 from api.v2.restaurants.views import RestaurantsViewSet
+from api.v2.menus.views import MenusViewSet
 
 router = DefaultRouter()
-router.register('rest', RestaurantsViewSet)
+router.register('restaurants', RestaurantsViewSet)
+router.register('menus', MenusViewSet)
 
 urlpatterns = [
     path('employees/', UserAPIView.as_view()),
