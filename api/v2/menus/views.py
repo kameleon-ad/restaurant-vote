@@ -4,6 +4,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
+from django.db.models import F, Sum
 from datetime import date
 from .models import Menus, Votes
 from .serializers import MenusSerializer, VotesSerializer
@@ -76,3 +77,10 @@ class MenusViewSet(ModelViewSet):
         serializer.save()
 
         return Response({'employee': employee.username, 'failed': failed, 'succeed': succeed, 'result': serializer.data})
+
+    @action(detail=False, methods=['get'])
+    def result(self, request: Request):
+        results = Votes.objects.filter(menu__date=date.today()) \
+            .values('menu', menu_des=F('menu__menu'), restaurant=F('menu__restaurant__name')) \
+            .annotate(total_points=Sum('point')).order_by('-total_points')
+        return Response(results)
