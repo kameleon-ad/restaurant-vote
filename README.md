@@ -14,14 +14,41 @@ Once the project is running, the endpoint **/api/[version]/docs/swagger/** to vi
 
 ## How it works
 
-Menus to be voted for are Menus uploaded on the particular day of voting, this is achieved by adding *uploaded_date* field to *Menu* so that the implementation can validated if it is eligible for voting or not. The *employee* type user who is allowed to vote only a single *Menu* instance per day for the first version of the API and up to 3 *Menu* instances per day for the second version of the API.
+### API Version Control
 
-API versioning is *URL* based versioning as can be seen from the *OpenAPI* based docs provided at this endpoint **/api/[version]/docs/swagger/**. For version 1, the API routes traffic to an API view which checks the vote counts that day by the requesting user (employee type). If the count is less than 1 (i.e, 0), then it allows then it implements the vote request for that user. But if the count is greater than 3, it will return a forbidden status code defining that the user is not allowed to vote for more than 1 *Menu* instance.
+The provided code represents the URL configuration for an API in a Django project. Here's a breakdown of the code:
 
-For the version 2, the restricting number of votes is 3, hence, a user can continue voting for more *Menu* instances upto a count of 3, after which the user will be forbidden to vote again for that day. Points are associated to votes for the version 2. default point for version 1 is 1. But version 2 allows the user right to vote minimum of point of 1 and maximum point of 3 for a particular *Menu* instance.
+Here, we use api version control managed by url. But, you can also choose default url using `/api/def`. In this case, you can notify api version with `X-API-Version`. If you don't notify version, the middleware process the request with latest api version. <b>So, mostly, in mobile app, you may use this api.</b>
 
-An endpoint exposes the winning *Menu* based on the summation of the vote count with respect to the points accumulated by each *Menu* per vote.
-The *Menu* instance with the highest value of summation{vote.point} wins the selection. Hence for that day, the restaurant that created that *Menu* becomes the winning restaurant for lunch.
+In the main `api/urls.py` file in the API directory:
+
+- The /api/v1/ endpoint is mapped to the URLs defined in `api.v1.urls`.
+- The /api/v2/ endpoint is mapped to the URLs defined in `api.v2.urls`.
+
+In the `api/v1/urls.py` file:
+
+- The UserAPIView view is mapped to the `/api/v1/employees/` endpoint.
+- The AuthAPIView view is mapped to the `/api/v1/auth/` endpoint.
+- The RestaurantsViewSetV1 viewset is registered for the `/api/v1/restaurants/` endpoint.
+- The MenusViewSetV1 viewset is registered for the `/api/v1/menus/` endpoint.
+- The router's URLs are included in the URL patterns using include(`router.urls`).
+
+In the `api/v2/urls.py` file:
+
+- The UserAPIView view is mapped to the `/api/v2/employees/` endpoint.
+- The AuthAPIView view is mapped to the `/api/v2/auth/` endpoint.
+- The RestaurantsViewSetV1 viewset is registered for the `/api/v2/restaurants/` endpoint.
+- The MenusViewSetV2 viewset is registered for the `/api/v2/menus/` endpoint.
+- The router's URLs are included in the URL patterns using include(`router.urls`).
+
+The `api/middleware` is a custom middleware that performs version control for API requests:
+
+- It checks if the request path does not start with /api/def.
+- If it doesn't, it allows the request to continue to the next middleware or view.
+- If it does, it extracts the version from the `X-API-Version` header. If the header is not present, it defaults to version 2.
+- It modifies the request's `path_info` to include the version prefix (e.g., `/api/v2`) and removes the `/api/def` prefix from the original path.
+- Finally, it returns the modified request to proceed with further processing.
+This middleware essentially redirects requests from `/api/def` to the appropriate API version based on the `X-API-Version` header or defaults to version 2.
 
 ## Running the Service
 
