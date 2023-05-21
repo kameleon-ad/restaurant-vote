@@ -1,5 +1,5 @@
 from django import forms
 
 
-class VoteMenuFormV1(forms.Form):
+class VoteMenuFormV2(forms.Form):
     votes = forms.JSONField()

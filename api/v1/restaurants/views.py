@@ -4,7 +4,7 @@ from .models import Restaurants
 from .serializers import RestaurantsSerializer
 
 
-class RestaurantsV1ViewSet(ModelViewSet):
+class RestaurantsViewSetV1(ModelViewSet):
     queryset = Restaurants.objects.all()
     serializer_class = RestaurantsSerializer
 
