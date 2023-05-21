@@ -11,7 +11,7 @@ from .serializers import MenusSerializer, VotesSerializer
 from .forms import VoteMenuForm
 
 
-class MenusViewSet(ModelViewSet):
+class MenusV1ViewSet(ModelViewSet):
     queryset = Menus.objects.all()
     serializer_class = MenusSerializer
 
