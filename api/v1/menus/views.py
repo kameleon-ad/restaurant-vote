@@ -56,7 +56,7 @@ class MenusViewSetV1(ModelViewSet):
             status.HTTP_200_OK: openapi.Response(
                 description="Vote successful",
                 schema=VotesSerializer(),
-                examples={
+                examples="""{
                     "application/json": {
                         {
                             "employee": "user2",
@@ -72,7 +72,7 @@ class MenusViewSetV1(ModelViewSet):
                             ]
                         }
                     }
-                }
+                }"""
             ),
             status.HTTP_400_BAD_REQUEST: openapi.Response(
                 description="Invalid request or data",

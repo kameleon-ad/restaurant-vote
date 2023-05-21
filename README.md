@@ -52,6 +52,26 @@ This middleware essentially redirects requests from `/api/def` to the appropriat
 
 ## Running the Service
 
+### Prepare the enviroment
+
+#### Linux
+
+```shell
+python -m venv .venv
+source ./.venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+#### Windows
+
+```shell
+python -m venv .venv
+./.venv/Scripts/activate
+python -m pip install -r requirements.txt
+```
+
+#### Running of the application
+
 Once the project development environment setup is done and the virtual environment is fully setup and functional, run the following command on the project directory to spin up the server.
 
 ```shell
