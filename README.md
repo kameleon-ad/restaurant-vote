@@ -111,3 +111,23 @@ mypy .
 ```
 
 *Note:* Your changes must pass all these test before you can successfully make a commit.
+
+## Running with Docker
+First you have to make sure that you have docker installed and running, then run the *build_image.sh* bash script as below:
+
+*Windows*
+```shell
+scripts\build_image.bat restaurant-vote-service
+```
+
+*Linux*
+```bash
+bash scripts/build_image.sh restaurant-vote-service
+```
+*restaurant-vote-service* is the *tag* for the image after it's built.
+The above command builds the image and run a container from the image, if your desired feature is to run an existing image then, you might want to run the following command instead.
+
+```bash
+docker run -p 8000:80 gribp/restaurant-vote-service
+```
+You may have to do this as a root user for this to work.

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_NAME=restaurants_vote
+      - DB_NAME_TEST=restaurants_vote_test
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOSTNAME=postgres
+      - DB_PORT=5432
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=restaurants_vote
+    volumes:
+      - restaurants_vote_data:/var/lib/postgresql/data
+
+volumes:
+  restaurants_vote_data:
