@@ -41,7 +41,28 @@ class MenusViewSetV1(ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def vote(self, request: Request):
-        raise NotImplementedError("")
+        employee = request.user
+        form = VoteMenuFormV1(request.POST)
+
+        if not form.is_valid():
+            return Response({'message': 'Vote form must have integer menu_id'}, status=status.HTTP_400_BAD_REQUEST)
+
+        menu_id = form.cleaned_data.get('menu_id')
+        menu = Menus.objects.filter(id=menu_id, date=date.today()).first()
+
+        if menu is None:
+            return Response({'message': 'Menu does not exist in today\' menu.'}, status=status.HTTP_404_NOT_FOUND)
+
+        Votes.objects.filter(employee=employee.id, menu__date=date.today()).delete()
+        serializer = VotesSerializer(data={
+            'point': 1,
+            'employee': employee.id,
+            'menu': menu_id
+        })
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'employee': employee.username, 'result': serializer.data})
 
     @action(detail=False, methods=['get'])
     def result(self, request: Request):

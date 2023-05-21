@@ -2,4 +2,4 @@ from django import forms
 
 
 class VoteMenuFormV1(forms.Form):
-    votes = forms.JSONField()
+    menu_id = forms.IntegerField()
