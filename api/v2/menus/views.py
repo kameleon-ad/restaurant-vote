@@ -16,12 +16,12 @@ class MenusViewSetV2(MenusViewSetV1):
         form = VoteMenuFormV2(request.POST)
 
         if not form.is_valid():
-            return Response({'message': 'Vote form must be non-empty & list json.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Vote form must be non-empty json.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        votes = form.cleaned_data.get('votes')
+        votes = form.cleaned_data['votes']
 
         if not isinstance(votes, list):
-            return Response({'message': 'Vote form must be non-empty & list json.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Vote form must be list json.', 'type': votes}, status=status.HTTP_400_BAD_REQUEST)
 
         if len(votes) > 3:
             return Response({'message': 'Only three votes allowed'}, status=400)
