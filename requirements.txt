@@ -1,6 +1,8 @@
 django
 djangorestframework
 django-extensions
+django-stubs
+drf-yasg[validation]
 psycopg2
 pygraphviz
 python-dotenv

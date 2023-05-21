@@ -12,7 +12,7 @@ class VersionControlRedirectMiddleware:
 
         version = request.headers.get('X-API-Version')
         if version is None:
-            version = 2
+            version = "2"
         request.path_info = f'/api/v{ version }' + request.path_info[len('/api/def'):]
         response = self.get_response(request)
         return response

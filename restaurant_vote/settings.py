@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third Party Libraries
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
+    'drf_yasg',
+    # Apps designed for users
     'api.v1.restaurants',
     'api.v1.menus',
 ]
