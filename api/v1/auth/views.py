@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate, login
-from api.v2.auth.forms import AuthForm
+from api.v1.auth.forms import AuthForm
 
 
 class AuthAPIView(APIView):

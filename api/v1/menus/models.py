@@ -1,5 +1,5 @@
 from django.db import models
-from api.v2.restaurants.models import Restaurants
+from api.v1.restaurants.models import Restaurants
 from django.contrib.auth.models import User
 
 
