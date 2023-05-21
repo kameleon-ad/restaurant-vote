@@ -1,4 +1,6 @@
 django
 djangorestframework
+django-extensions
 psycopg2
+pygraphviz
 python-dotenv
