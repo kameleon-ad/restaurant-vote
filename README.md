@@ -10,7 +10,7 @@ The schema diagram of the database, generated using **django_extensions** is as 
 
 ![Database Schema](db_schema.png)
 
-Once the project is running, the endpoint **/api/[version]/docs/swagger/** to view the API docs and interact with it.
+Once the project is running, the endpoint **/api/swagger/** to view the API docs and interact with it.
 
 ## How it works
 
