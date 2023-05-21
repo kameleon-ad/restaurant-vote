@@ -1,7 +1,6 @@
 from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import User
-from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
+from rest_framework.test import force_authenticate
 from datetime import date, timedelta
 from api.v1.restaurants.models import Restaurants
 from api.v1.menus.models import Menus, Votes
@@ -12,13 +11,10 @@ class MenusModelAPITestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.view = MenusViewSetV1.as_view({'get': 'list', 'post': 'create'})
-        self.client = APIClient()
 
     def test_create_menu(self):
         # Create a test user
         user = User.objects.create_user(username='test_user', password='test_password')
-        token, _ = Token.objects.get_or_create(user=user)
-        token_key = token.key
 
         # Create a test restaurant
         restaurant = Restaurants.objects.create(name='Test Restaurant')
@@ -29,8 +25,9 @@ class MenusModelAPITestCase(TestCase):
             'date': str(date.today()),
             'menu': 'Test Menu'
         }
-        request = self.factory.post('/api/v1/menus/', data=menu_data, HTTP_AUTHORIZATION=f'Token { token_key }')
-        request.user = user
+
+        request = self.factory.post('/api/v1/menus/', data=menu_data)
+        force_authenticate(request, user=user)
         response = self.view(request)
 
         self.assertEqual(response.status_code, 201)
@@ -52,10 +49,8 @@ class MenusModelAPITestCase(TestCase):
         Votes.objects.create(employee=user2, menu=menu1, point=2)
         Votes.objects.create(employee=user3, menu=menu2, point=1)
 
-        token, _ = Token.objects.get_or_create(user=user1)
-        token_key = token.key
-
-        request = self.factory.get('/api/v1/menus/result/', HTTP_AUTHORIZATION=f'Token { token_key }')
+        request = self.factory.get('/api/v1/menus/result/')
+        force_authenticate(request, user=user1)
         response = self.view(request)
 
         self.assertEqual(response.status_code, 200)
