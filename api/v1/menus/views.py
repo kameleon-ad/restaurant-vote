@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
 from django.db.models import F, Sum
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from datetime import date
 from .models import Menus, Votes
 from .serializers import MenusSerializer, VotesSerializer
@@ -32,13 +34,66 @@ class MenusViewSetV1(ModelViewSet):
         headers = self.get_success_headers(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
+    
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: MenusSerializer(many=True)},
+    )
     @action(detail=False, methods=['get'])
     def today(self, request: Request):
         menus_today = Menus.objects.filter(date=date.today())
         serializer = MenusSerializer(menus_today, many=True)
         return Response(serializer.data)
-
+    
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'menu_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+            },
+            required=['menu_id'],
+        ),
+        responses={
+            status.HTTP_200_OK: openapi.Response(
+                description="Vote successful",
+                schema=VotesSerializer(),
+                examples={
+                    "application/json": {
+                        {
+                            "employee": "user2",
+                            "failed": 2,
+                            "succeed": 1,
+                            "result": [
+                                {
+                                    "id": 56,
+                                    "point": 2,
+                                    "employee": 3,
+                                    "menu": 4
+                                }
+                            ]
+                        }
+                    }
+                }
+            ),
+            status.HTTP_400_BAD_REQUEST: openapi.Response(
+                description="Invalid request or data",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'message': openapi.Schema(type=openapi.TYPE_STRING),
+                    },
+                ),
+            ),
+            status.HTTP_404_NOT_FOUND: openapi.Response(
+                description="Menu not found",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'message': openapi.Schema(type=openapi.TYPE_STRING),
+                    },
+                ),
+            ),
+        },
+    )
     @action(detail=False, methods=['post'])
     def vote(self, request: Request):
         employee = request.user
@@ -64,6 +119,9 @@ class MenusViewSetV1(ModelViewSet):
 
         return Response({'employee': employee.username, 'result': serializer.data})
 
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT))},
+    )
     @action(detail=False, methods=['get'])
     def result(self, request: Request):
         results = Votes.objects.filter(menu__date=date.today()) \
