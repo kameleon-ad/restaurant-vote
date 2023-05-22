@@ -6,9 +6,20 @@ An internal service for making decision on which Restaurant to visit for lunch i
 This project is a service for Employees (workers) within an organisation to vote food menus for decision of a place (Restaurant) to go for Lunch.
 
 ### Architecture
+
 The schema diagram of the database, generated using **django_extensions** is as shown below:
 
 ![Database Schema](db_schema.png)
+
+### HA Cloud Diagram
+
+This diagram shows the architecture of the High Ability Cloud Archietecture.
+
+![HA Cloud Diagram](ha_cloud_architecutre.png)
+
+Here is the architecture diagrapm published.
+
+[HA Cloud Diagram](https://lucid.app/documents/view/61941ca4-afcb-48bf-81cd-73c7318d9d46)
 
 Once the project is running, the endpoint **/api/swagger/** to view the API docs and interact with it.
 
