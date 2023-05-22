@@ -139,6 +139,6 @@ bash scripts/build_image.sh restaurant-vote-service
 The above command builds the image and run a container from the image, if your desired feature is to run an existing image then, you might want to run the following command instead.
 
 ```bash
-docker run -p 8000:80 gribp/restaurant-vote-service
+docker run -p 8000:80 restaurant-vote-service
 ```
 You may have to do this as a root user for this to work.
