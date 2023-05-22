@@ -1,9 +1,8 @@
 version: '3'
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
+    command: sh -c "python manage.py migrate && python manage.py runserver"
     environment:
       - DB_NAME=restaurants_vote
       - DB_NAME_TEST=restaurants_vote_test
@@ -11,10 +10,11 @@ services:
       - DB_PASSWORD=postgres
       - DB_HOSTNAME=postgres
       - DB_PORT=5432
+      - PYTHONUNBUFFERED=1
     expose:
-      - "80"
+      - "8000"
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on:
       - postgres
 

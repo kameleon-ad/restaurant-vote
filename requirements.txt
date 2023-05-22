@@ -5,5 +5,4 @@ django-stubs
 drf-yasg[validation]
 pre-commit
 psycopg2
-pygraphviz
 python-dotenv

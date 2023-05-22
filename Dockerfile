@@ -1,24 +1,26 @@
+# Base image
 FROM python:3.10.4-slim-buster
 
-# Create a working directory
-WORKDIR /app/service
+# Set the working directory in the container
+WORKDIR /app
 
 # Copy source code to working directory
-COPY . /app/service/
+COPY . /app
 
 # update apt packages, install python and pip Install packages from requirements.txt and run migrations
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y locales python3.10 python3-pip python3.10-dev && rm -rf /var/lib/apt/lists/* \
-	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
-    python3 -m pip install --upgrade pip && \
-    python3 -m pip install -r requirements.txt && \
-    python3 manage.py makemigrations && \
-    python3 manage.py migrate
+    apt-get install -y postgresql libpq-dev gcc
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install -r requirements.txt
+RUN python3 manage.py makemigrations
 
 ENV LANG en_US.utf8
 
-# Expose port 80
-EXPOSE 80
+# Expose the port that the Flask application will run on
+ENV LISTEN_PORT=5000
+EXPOSE 5000
+
+# Set environment variables for Django
 
 # Run server at container launch
 CMD [ "python3", "manage.py", "runserver", "80" ]

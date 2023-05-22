@@ -13,9 +13,9 @@ The schema diagram of the database, generated using **django_extensions** is as 
 
 ### HA Cloud Diagram
 
-This diagram shows the architecture of the High Ability Cloud Archietecture.
+This diagram shows the architecture of the High Ability Cloud Architecture.
 
-![HA Cloud Diagram](ha_cloud_architecutre.png)
+![HA Cloud Diagram](ha_cloud_architecture.png)
 
 Here is the architecture diagrapm published.
 
