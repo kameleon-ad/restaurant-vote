@@ -25,6 +25,51 @@ Once the project is running, the endpoint **/api/swagger/** to view the API docs
 
 ## How it works
 
+#### Create User
+
+- Request
+    ```shell
+    curl http://localhost:8000/api/def/employees/ -X POST  -H "Content-Type: multipart/form-data" -F "username=user" -F "email=user@email.com" -F "password=password"
+    ```
+
+- Response
+    ```json
+    {
+        "user":"user"
+    }
+    ```
+
+#### Login User
+- Request
+    ```shell
+    curl http://localhost:8000/api/def/auth/ -X POST  -H "Content-Type: multipart/form-data" -F "username=user" -F "password=password"
+    ```
+- Response
+    ```json
+    {
+        "token":"1a9430fdf7f7504d148b3c5c3d020eeb15d388d2"
+    }
+    ```
+
+#### Authentication With Token
+- Request
+    ```shell
+    curl http://localhost:8000/api/def/auth/ -X GET  -H "Authorization: Token 1a9430fdf7f7504d148b3c5c3d020eeb15d388d2"
+    ```
+- Response
+    200
+    ```json
+    {
+        "username":"user"
+    }
+    ```
+    401
+    ```json
+    {
+        "message":"Please login"
+    }
+    ```
+
 ### API Version Control
 
 The provided code represents the URL configuration for an API in a Django project. Here's a breakdown of the code:
