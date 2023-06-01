@@ -25,6 +25,12 @@ Once the project is running, the endpoint **/api/swagger/** to view the API docs
 
 ## How it works
 
+### User Permissions
+
+- Types of Users
+  Admin User: Available for anything
+  Regular User: Available for anything except creating a new restaurant
+
 #### Create User
 
 - Request
